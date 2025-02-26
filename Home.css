@@ -65,9 +65,44 @@ span{
     margin-left:5px;
 }
 
+.toggle-container {
+    display: flex;
+    justify-content: flex-end; /* Moves content to the right */
+    padding: 10px;
+}
+
+#modeToggle {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
 
 
-@media only screen and (max-width: 768px) {
+body.dark-mode {
+    background-color: #181d13;
+    color: white;
+}
+
+.dark-mode .card {
+    background-color: #1e1e1e;
+    color: white;
+}
+
+.dark-mode .btn {
+    background-color: #0762ad;
+    color: white;
+}
+
+.dark-mode table {
+    background-color: #333;
+    color: white;
+}
+
+.dark-mode th, .dark-mode td {
+    border-color: white;
+}
+
+/* @media only screen and (max-width: 768px) {
     .solid-circle{
         background-color:black;
         width: 200px;
@@ -76,7 +111,7 @@ span{
         
         
     }
-}
+} */
 
 
 
