@@ -17,6 +17,10 @@
             <h5 class="btn btn-warning ">Expense Tracker <img src="./Images/OIP-removebg-preview.png"  width="50px"></h5>
             <button class="btn btn-primary md" id="clickhere">Click Here</button>
 
+            <div class="toggle-container">
+                <button id="modeToggle" class="btn btn-primary">🌙 Dark Mode</button>
+            </div>
+
         </div>
         <div id="home-c1">
             <h3 class="home-c2">Hello <img src="./Images/hello.png" alt="nothing" width="90px">, please enter your <br>
@@ -37,6 +41,19 @@
         </div>
 
 
+        <script>
+            document.getElementById("modeToggle").addEventListener("click", function () {
+          document.body.classList.toggle("dark-mode");
+      
+          // Change button text based on mode
+          if (document.body.classList.contains("dark-mode")) {
+              this.innerText = "☀️ Light Mode";
+          } else {
+              this.innerText = "🌙 Dark Mode";
+          }
+      });
+      
+          </script>
 
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
