@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Expense Tracking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="./Tracker.css">
+</head>
+  <body>
+
+   <div class="header m-0">
+          <p class="m-0">Track Your <br>Expenses <img src="./Images/OIP-removebg-preview.png" alt="NOthing" width="40px"></p>
+        </div>
+        <div class="toggle-container">
+          <button id="modeToggle" class="btn btn-primary">🌙 Dark Mode</button>
+      </div>
+      
+
+        
+
+    <div class="Inputform">
+      <div class="form-floating inputs">
+          <input type="date" class="form-control dateInput" id="floatingInput" placeholder="name@example.com">
+          <label for="floatingInput">Date</label>
+      </div>
+
+      <div class="form-floating inputs">
+          <input type="Amount" class="form-control amountInput" id="floatingInput" placeholder="name@example.com">
+          <label for="floatingInput">Amount</label>
+      </div>
+
+      <select class="form-select inputs transactionInput" aria-label="Default select example">
+          <option selected>Transaction Type</option>
+          <option value="income">Income</option>
+          <option value="expense">Expense</option>
+      </select>
+
+      <button class="btn" id="Add-Button" onclick="addRow()">+</button>
+    </div>
+
+    <div class="cards mt-4">
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title mt-0 btn">Total Income <img src="./Images/OIP-removebg-preview.png" alt="" width="50px"><br></h5>
+          <h1 class="m-0"> 
+              <img src="./Images/Ruppe-stmbol.png"width="50px">
+              <span id="totalIncome" class="mt0">0 </span>
+          </h1>
+        </div>
+      </div>
+
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title mt-0 btn">Total Expense <img src="./Images/expense (2).png" alt="" width="50px"><br></h5>
+          <h1 class="m-0"> 
+              <img src="./Images/Ruppe-stmbol.png"width="50px">
+              <span id="expense" class="mt0">0 </span>
+          </h1>
+        </div>
+      </div>
+
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title mt-0 btn">Balance <img src="./Images/balance.png" alt="" width="50px"><br></h5>
+          <h1 class="m-0"> 
+              <img src="./Images/Ruppe-stmbol.png"width="50px">
+              <span id="balance" class="mt0">0 </span>
+          </h1>
+        </div>
+      </div>
+    </div>
+
+    <table class="transaction-table mt-3" id="TrackExpense">
+          <tr id="header-row">
+            <th>Amount</th>
+            <th>Transaction Type</th>
+            <th>Transaction Date</th>
+            <th>Action</th>
+        </tr>
+    </table>
+
+
+    <script>
+      document.getElementById("modeToggle").addEventListener("click", function () {
+    document.body.classList.toggle("dark-mode");
+
+    // Change button text based on mode
+    if (document.body.classList.contains("dark-mode")) {
+        this.innerText = "☀️ Light Mode";
+    } else {
+        this.innerText = "🌙 Dark Mode";
+    }
+});
+
+    </script>
+
+    <script>
+      let table = document.getElementById('TrackExpense');
+
+      function deleteRow(row, amount, transactionType) {
+        row.remove();
+
+        let totalIncome = parseInt(document.getElementById('totalIncome').innerText);
+        let totalExpense = parseInt(document.getElementById('expense').innerText);
+        let balance = parseInt(document.getElementById('balance').innerText);
+
+        if (transactionType === 'income')
+         { 
+            totalIncome += amount; 
+            balance += amount; 
+        } 
+        else if (transactionType === 'expense') 
+        { 
+            totalExpense += amount; 
+            balance -= amount; 
+        }
+
+
+        document.getElementById('totalIncome').innerText = totalIncome;
+        document.getElementById('expense').innerText = totalExpense;
+        document.getElementById('balance').innerText = balance;
+      }
+
+      function addRow() { 
+        let date = document.getElementsByClassName('dateInput')[0].value;
+        let amount = parseInt(document.getElementsByClassName('amountInput')[0].value);
+        let transactionType = document.getElementsByClassName('transactionInput')[0].value;
+
+        if (!date || isNaN(amount) || transactionType === 'Transaction Type') {
+          alert("Please enter all details correctly.");
+          return;
+        }
+
+        let row = document.createElement('tr');
+
+        let amountCell = document.createElement('td');
+        amountCell.innerText = amount;
+
+        let transactionCell = document.createElement('td');
+        transactionCell.innerText = transactionType;
+
+        let dateCell = document.createElement('td');
+        dateCell.innerText = date;
+
+        let binCell = document.createElement('td');
+        let deleteButton = document.createElement('button');
+        let binImage = document.createElement('img');
+        binImage.src = './Images/del.png';
+        binImage.style.width = '30px';
+        binImage.style.height = '30px';
+        deleteButton.classList.add('delete-button');
+        deleteButton.appendChild(binImage);
+        deleteButton.onclick = () => deleteRow(row, amount, transactionType);
+
+        binCell.appendChild(deleteButton);
+
+        row.appendChild(amountCell);
+        row.appendChild(transactionCell);
+        row.appendChild(dateCell);
+        row.appendChild(binCell);
+
+        table.appendChild(row);
+
+        let totalIncome = parseInt(document.getElementById('totalIncome').innerText);
+        let totalExpense = parseInt(document.getElementById('expense').innerText);
+        let balance = parseInt(document.getElementById('balance').innerText);
+
+        if (transactionType === 'income') {
+          totalIncome += amount;
+          balance += amount;
+        } else if (transactionType === 'expense') {
+          totalExpense += amount;
+          balance -= amount;
+        }
+
+        document.getElementById('totalIncome').innerText = totalIncome;
+        document.getElementById('expense').innerText = totalExpense;
+        document.getElementById('balance').innerText = balance;
+      }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
